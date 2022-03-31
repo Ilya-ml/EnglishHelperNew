@@ -134,29 +134,62 @@ def for_inter(message):
 @uses.bot.message_handler("Upper-Intermediate")
 def upper_int(message):
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
-    item1 = uses.types.KeyboardButton("Новые слова (int)")
-    item2 = uses.types.KeyboardButton("Тест (int)")
-    item3 = uses.types.KeyboardButton("Книги (int)")
+    item1 = uses.types.KeyboardButton("Новые слова (upper-intermediate)")
+    item2 = uses.types.KeyboardButton("Тест (upper-intermediate)")
+    item3 = uses.types.KeyboardButton("Книги (upper-intermediate)")
     item4 = uses.types.KeyboardButton("Поменять уровень")
     markup.add(item1, item2, item3, item4)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
 
 
-@uses.bot.message_handler("Новые слова (int)")
+@uses.bot.message_handler("Новые слова (upper-intermediate)")
 def new_word_for_upper_int(message):
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
-    item1 = uses.types.KeyboardButton("Социальная коммуникация (int)")
-    item2 = uses.types.KeyboardButton("Повседневные (int)")
+    item1 = uses.types.KeyboardButton("Социальная коммуникация (upper-intermediate)")
+    item2 = uses.types.KeyboardButton("Образование")
     markup.add(item1, item2)
     uses.bot.send_message(message.chat.id, 'Слова какой темы Вы хотите выучить?', reply_markup=markup)
 
 
-@uses.bot.message_handler("Назад (int)")
+@uses.bot.message_handler("Назад (upper-intermediate)")
 def for_upper_int(message):
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
-    item1 = uses.types.KeyboardButton("Новые слова (int)")
-    item2 = uses.types.KeyboardButton("Тест (int)")
-    item3 = uses.types.KeyboardButton("Книги (int)")
+    item1 = uses.types.KeyboardButton("Новые слова (upper-intermediate)")
+    item2 = uses.types.KeyboardButton("Тест (upper-intermediate)")
+    item3 = uses.types.KeyboardButton("Книги (upper-intermediate)")
+    item4 = uses.types.KeyboardButton("Поменять уровень")
+    markup.add(item1, item2, item3, item4)
+    uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
+
+
+# Advanced
+
+@uses.bot.message_handler("Advanced")
+def adv(message):
+    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    item1 = uses.types.KeyboardButton("Новые слова (advanced)")
+    item2 = uses.types.KeyboardButton("Тест (advanced)")
+    item3 = uses.types.KeyboardButton("Книги (advanced)")
+    item4 = uses.types.KeyboardButton("Поменять уровень")
+    markup.add(item1, item2, item3, item4)
+    uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
+
+
+@uses.bot.message_handler("Новые слова (advanced)")
+def new_word_for_adv(message):
+    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    item1 = uses.types.KeyboardButton("Социальная коммуникация (advanced)")
+    item2 = uses.types.KeyboardButton("Наука")
+    markup.add(item1, item2)
+    uses.bot.send_message(message.chat.id, 'Слова какой темы Вы хотите выучить?', reply_markup=markup)
+
+
+@uses.bot.message_handler("Назад (advanced)")
+def for_adv(message):
+    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    item1 = uses.types.KeyboardButton("Новые слова (advanced)")
+    item2 = uses.types.KeyboardButton("Тест (advanced)")
+    item3 = uses.types.KeyboardButton("Книги (advanced)")
     item4 = uses.types.KeyboardButton("Поменять уровень")
     markup.add(item1, item2, item3, item4)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
@@ -173,6 +206,12 @@ def message_reply(message):
 
     if message.text == "Intermediate":
         inter(message)
+
+    if message.text == "Upper-Intermediate":
+        upper_int(message)
+
+    if message.text == "Advanced":
+        adv(message)
 
     if message.text == "Поменять уровень":
         uses.bot.send_message(message.chat.id, 'Чтобы выбрать другой уровень знаний языка, нажмите на /eng_level')
@@ -286,7 +325,7 @@ def message_reply(message):
         uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
 
     if message.text == "Книги (intermediate)":
-        uses.bot.send_message(message.chat.id, pre_intermediate.books)
+        uses.bot.send_message(message.chat.id, intermediate.books)
         markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
         item1 = uses.types.KeyboardButton("Назад (intermediate)")
         markup.add(item1)
@@ -299,6 +338,80 @@ def message_reply(message):
         uses.bot.send_message(message.chat.id, "В скором времени")
         markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
         item1 = uses.types.KeyboardButton("Назад (intermediate)")
+        markup.add(item1)
+        uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
+
+
+    # Upper-Intermediate
+
+    if message.text == "Новые слова (upper-intermediate)":
+        new_word_for_upper_int(message)
+
+    if message.text == "Социальная коммуникация (upper-intermediate)":
+        uses.bot.send_message(message.chat.id, upper_intermediate.social)
+        markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+        item1 = uses.types.KeyboardButton("Назад (upper-intermediate)")
+        markup.add(item1)
+        uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
+
+    if message.text == "Образование":
+        uses.bot.send_message(message.chat.id, upper_intermediate.education)
+        markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+        item1 = uses.types.KeyboardButton("Назад (upper-intermediate)")
+        markup.add(item1)
+        uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
+
+    if message.text == "Книги (upper-intermediate)":
+        uses.bot.send_message(message.chat.id, upper_intermediate.books)
+        markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+        item1 = uses.types.KeyboardButton("Назад (upper-intermediate)")
+        markup.add(item1)
+        uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
+
+    if message.text == "Назад (upper-intermediate)":
+        for_upper_int(message)
+
+    if message.text == "Тест (upper-intermediate)":
+        uses.bot.send_message(message.chat.id, "В скором времени")
+        markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+        item1 = uses.types.KeyboardButton("Назад (upper-intermediate)")
+        markup.add(item1)
+        uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
+
+
+# Advanced
+
+    if message.text == "Новые слова (advanced)":
+        new_word_for_adv(message)
+
+    if message.text == "Социальная коммуникация (advanced)":
+        uses.bot.send_message(message.chat.id, advanced.social)
+        markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+        item1 = uses.types.KeyboardButton("Назад (advanced)")
+        markup.add(item1)
+        uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
+
+    if message.text == "Наука":
+        uses.bot.send_message(message.chat.id, advanced.science)
+        markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+        item1 = uses.types.KeyboardButton("Назад (advanced)")
+        markup.add(item1)
+        uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
+
+    if message.text == "Книги (advanced)":
+        uses.bot.send_message(message.chat.id, advanced.books)
+        markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+        item1 = uses.types.KeyboardButton("Назад (advanced)")
+        markup.add(item1)
+        uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
+
+    if message.text == "Назад (advanced)":
+        for_adv(message)
+
+    if message.text == "Тест (advanced)":
+        uses.bot.send_message(message.chat.id, "В скором времени")
+        markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+        item1 = uses.types.KeyboardButton("Назад (advanced)")
         markup.add(item1)
         uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
 
