@@ -300,7 +300,7 @@ def message_reply(message):
     if message.text == "Тест (pre-intermediate)":
         uses.bot.send_message(message.chat.id, "В скором времени")
         markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
-        item1 = uses.types.KeyboardButton("Назад (pre-int)")
+        item1 = uses.types.KeyboardButton("Назад (pre-intermediate)")
         markup.add(item1)
         uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
 
