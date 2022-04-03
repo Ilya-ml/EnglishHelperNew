@@ -30,7 +30,7 @@ family = "family - семья\n"                      \
          "uncle - дядя\n"                        \
          "cousin - двоюродная сестра или брат\n" \
          "man - мужчина\n"                       \
-         "woman - женщина"                       \
+         "woman - женщина\n"                     \
          "child - ребенок\n"                     \
          "brother - брат\n"                      \
          "relatives - родственники\n"            \
