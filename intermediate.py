@@ -1,3 +1,8 @@
+import string
+
+lvl: string = "intermediate"
+
+
 social = "distancing - дистанцирование\n"            \
          "self-care - забота о себе\n"               \
          "medication - лекарство\n"                  \

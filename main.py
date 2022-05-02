@@ -1,3 +1,5 @@
+import string
+
 import uses
 import messages
 import begginer
@@ -10,6 +12,9 @@ import advanced
 # Бот - @EnglishHelperTestBot
 
 
+level: string = "start";
+
+
 @uses.bot.message_handler(commands=['start'])
 def start_message(message):
     uses.bot.send_message(message.chat.id, messages.first_message)
@@ -18,7 +23,7 @@ def start_message(message):
 @uses.bot.message_handler(commands=['eng_level'])
 def button_message(message):
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
-    item1 = uses.types.KeyboardButton("Begginer")
+    item1 = uses.types.KeyboardButton("Beginner")
     item2 = uses.types.KeyboardButton("Pre-Intermediate")
     item3 = uses.types.KeyboardButton("Intermediate")
     item4 = uses.types.KeyboardButton("Upper-Intermediate")
@@ -28,10 +33,11 @@ def button_message(message):
     uses.bot.send_message(message.chat.id, messages.choose_level_message, reply_markup=markup)
 
 
-# Begginer
+# Beginner
 
-@uses.bot.message_handler("Begginer")
+@uses.bot.message_handler("Beginner")
 def beggg(message):
+    level = begginer.lvl;
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова (begginer)")
     item2 = uses.types.KeyboardButton("Тест (begginer)")
@@ -67,6 +73,7 @@ def for_beg(message):
 
 @uses.bot.message_handler("Pre-Intermediate")
 def pre_int(message):
+    level = pre_intermediate.lvl;
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова (pre-intermediate)")
     item2 = uses.types.KeyboardButton("Тест (pre-intermediate)")
@@ -100,6 +107,7 @@ def for_pre_int(message):
 
 @uses.bot.message_handler("Intermediate")
 def inter(message):
+    level = intermediate.lvl;
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова (intermediate)")
     item2 = uses.types.KeyboardButton("Тест (intermediate)")
@@ -133,6 +141,7 @@ def for_inter(message):
 
 @uses.bot.message_handler("Upper-Intermediate")
 def upper_int(message):
+    level = upper_intermediate.lvl;
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова (upper-intermediate)")
     item2 = uses.types.KeyboardButton("Тест (upper-intermediate)")
@@ -166,6 +175,7 @@ def for_upper_int(message):
 
 @uses.bot.message_handler("Advanced")
 def adv(message):
+    level = advanced.lvl;
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова (advanced)")
     item2 = uses.types.KeyboardButton("Тест (advanced)")

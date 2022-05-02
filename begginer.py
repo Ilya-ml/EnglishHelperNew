@@ -1,3 +1,8 @@
+import string
+
+lvl: string = "beginner"
+
+
 nature = "air - воздух\n"  \
          "wind - ветер\n"  \
          "water - вода\n"  \

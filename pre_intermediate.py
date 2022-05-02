@@ -1,3 +1,8 @@
+import string
+
+lvl: string = "pre-intermediate"
+
+
 relax = "cartoon - мультфильм\n"                           \
         "movie - фильм\n"                                  \
         "circus - цирк\n"                                  \

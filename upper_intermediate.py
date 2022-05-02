@@ -1,3 +1,8 @@
+import string
+
+lvl: string = "upper-intermediate"
+
+
 education = "questionnaire - анкета, опросник\n"  \
             "oversight - надзор, контроль\n"      \
             "estimating - оценивание\n"           \

@@ -1,3 +1,8 @@
+import string
+
+lvl: string = "advanced"
+
+
 science = "axis - ось\n"                   \
           "modality - метод, форма\n"      \
           "discerning - распознавание\n"   \
