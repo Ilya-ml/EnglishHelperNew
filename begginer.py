@@ -14,6 +14,19 @@ nature = "air - воздух\n"  \
          "sea - море\n"    \
          "ocean - океан"
 
+nature_arr = ["air - воздух\n" \
+              "wind - ветер",
+              "water - вода\n" \
+              "west - запад",
+              "east - восток\n"\
+              "north - север",
+              "south - юг\n"
+              "tree - дерево", \
+              "sea - море\n"
+              "ocean - океан"]
+
+nature_size: int = len(nature_arr)
+
 
 family = "family - семья\n"                      \
          "boy - мальчик\n"                       \
@@ -46,6 +59,40 @@ family = "family - семья\n"                      \
          "happiness - счастье\n"                 \
          "people - люди"
 
+family_arr = ["family - семья\n"                      \
+              "people - люди",
+              "boy - мальчик\n"                       \
+              "girl - девочка",
+              "mother - мама\n"                       \
+              "father - отец",
+              "son - сын\n"                           \
+              "daughter - дочь",
+              "baby - малыш\n"                        \
+              "relatives - родственники",
+              "grand mother - бабушка\n"              \
+              "grand father - дедушка",
+              "child - ребенок\n"                     \
+              "children - дети",
+              "home - дом\n"                          \
+              "apartment - квартира",
+              "love - любовь\n"                       \
+              "happiness - счастье\n"                 \
+              "joy - радость",
+              "nephew - племянник\n"                  \
+              "address - адрес",
+              "aunt - тетя\n"                         \
+              "uncle - дядя",
+              "friend - друг\n"                       \
+              "cousin - двоюродная сестра или брат",
+              "man - мужчина\n"                       \
+              "woman - женщина\n",
+              "brother - брат\n"                      \
+              "sister - сестра",
+              "wife - жена\n"                         \
+              "husband - муж"]
+
+family_size: int = len(family_arr)
+
 
 social = "phone - телефон\n"                    \
          "question - вопрос\n"                  \
@@ -77,6 +124,39 @@ social = "phone - телефон\n"                    \
          "date - свидание\n"                    \
          "sweetheart - партнер, возлюбленный\n" \
          "leisure time - досуг"
+
+social_arr = ["phone - телефон\n"                    \
+              "question - вопрос",
+              "place - место\n"                      \
+              "market - рынок",
+              "order - заказ\n"                      \
+              "food - еда",
+              "work - работа\n"                      \
+              "communication - общение",
+              "story - история\n"                    \
+              "relax - отдых",
+              "time - время\n"                       \
+              "word - слово",
+              "dialogue - диалог\n"                  \
+              "meeting - встреча",
+              "week - неделя\n"                      \
+              "distance - дистанция",
+              "club - клуб\n"                        \
+              "theatre - театр",
+              "cinema - кинотеатр\n"                 \
+              "coffee shop - кофейня",
+              "friendship - дружба\n"                \
+              "behavior - поведение\n"               \
+              "attitude - отношение",
+              "student - студент\n"                  \
+              "university - университет",
+              "union - объединение\n"                \
+              "party - вечеринка",
+              "date - свидание\n"                    \
+              "sweetheart - партнер, возлюбленный\n" \
+              "leisure time - досуг"]
+
+social_size: int = len(social_arr)
 
 
 tourism = "road - дорога\n"                        \
@@ -112,6 +192,42 @@ tourism = "road - дорога\n"                        \
           "agreement - договор\n"                  \
           "hospital - больница\n"                  \
           "ambulance - скорая помощь"
+
+tourism_arr = ["road - дорога\n"                        \
+               "ticket - билет",
+               "map - карта\n"                          \
+               "motel - мотель",
+               "highway - шоссе\n"                      \
+               "reception - регистратура, ресепшн",
+               "wallet - бумажник\n"                    \
+               "bank - банк",
+               "subway - метро\n"                       \
+               "cab - такси",
+               "parking - парковка\n"                   \
+               "food order - заказ еды",
+               "cash - наличные\n"                      \
+               "passport - паспорт",
+               "permission - разрешение\n"              \
+               "lawyer - адвокат",
+               "problem - проблема\n"                   \
+               "waiting room - зал ожидания",
+               "transfer - пересадка\n"                 \
+               "bag - сумка",
+               "suitcase - чемодан\n"                   \
+               "property - имущество",
+               "law - право, закон\n"                   \
+               "police station - полицейский участок",
+               "price - стоимость, цена\n"              \
+               "price list - ценник",
+               "courier - курьер\n"                     \
+               "delivery - доставка",
+               "location - местоположение\n"            \
+               "route - маршрут",
+               "agreement - договор\n"                  \
+               "hospital - больница\n"                  \
+               "ambulance - скорая помощь"]
+
+tourism_size: int = len(tourism_arr)
 
 
 books = "Вот список книг для твоего уровня:\n"         \

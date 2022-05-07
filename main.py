@@ -13,7 +13,7 @@ import advanced
 
 
 level: string = "start"
-#global lvl
+
 
 @uses.bot.message_handler(commands=['start'])
 def start_message(message):
