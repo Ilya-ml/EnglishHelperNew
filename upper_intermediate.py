@@ -21,6 +21,26 @@ education = "questionnaire - анкета, опросник\n"  \
             "galore - множество\n"                \
             "sequence - последовательность"
 
+education_arr = ["questionnaire - анкета, опросник\n"  \
+                 "oversight - надзор, контроль",
+                 "estimating - оценивание\n"           \
+                 "inquiry - исследование",
+                 "contemplation - размышление\n"       \
+                 "alternative - Аальтернатива",
+                 "grade - класс, оценка\n"             \
+                 "graduate - выпускник",
+                 "credential - диплом, аттестат\n"     \
+                 "accolade - награда, похвала",
+                 "scale - шкала, величина\n"           \
+                 "gliding - планерка",
+                 "record - запись, досье\n"            \
+                 "measurability - исчислимость",
+                 "worksheet - рабочий лист, таблица\n" \
+                 "galore - множество\n"                \
+                 "sequence - последовательность"]
+
+education_size: int = len(education_arr)
+
 
 social = "doorstep - порог квартиры\n"       \
          "supervisor - супервайзер\n"        \
@@ -38,6 +58,26 @@ social = "doorstep - порог квартиры\n"       \
          "authenticity - подлинность\n"      \
          "backlash - обратная реакция\n"     \
          "connotation - подтекст, смысл"
+
+social_arr = ["doorstep - порог квартиры\n"       \
+              "supervisor - супервайзер",
+              "affirmation - утверждение\n"       \
+              "drop-off - спад",
+              "conversation - разговор, беседа\n" \
+              "indifference - безразличие,"
+              "segmentation - сегментация\n"      \
+              "landmark - веха, ориентир",
+              "upheaval - переворот\n"            \
+              "disarray - беспорядок",
+              "proof - доказательство\n"          \
+              "influx - наплыв",
+              "struggle - борьба\n"               \
+              "authenticity - подлинность",
+              "backlash - обратная реакция\n"     \
+              "connotation - подтекст, смысл"]
+
+social_size: int = len(social_arr)
+
 
 books = "Вот список книг для твоего уровня:\n"       \
         "1) «Little Fires Everywhere», Celeste Ng\n" \

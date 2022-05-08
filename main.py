@@ -15,6 +15,24 @@ import advanced
 level: string = "start"
 
 
+beg_nature: int = 0
+beg_family: int = 0
+beg_social: int = 0
+beg_tourism: int = 0
+
+pre_relax: int = 0
+pre_climate: int = 0
+
+int_social: int = 0
+int_life: int = 0
+
+upp_social: int = 0
+upp_education: int = 0
+
+adv_social: int = 0
+adv_science: int = 0
+
+
 @uses.bot.message_handler(commands=['start'])
 def start_message(message):
     uses.bot.send_message(message.chat.id, messages.first_message)

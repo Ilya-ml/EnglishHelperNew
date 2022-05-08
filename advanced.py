@@ -17,6 +17,22 @@ science = "axis - ось\n"                   \
           "offspring - потомство\n"        \
           "cognition - познание\n"
 
+science_arr = ["axis - ось\n"                   \
+               "modality - метод, форма",
+               "discerning - распознавание\n"   \
+               "pattern - образец, модель",
+               "anthropologist - антрополог\n"  \
+               "Oversight - надзор, контроль",
+               "exhibition - выставка\n"        \
+               "interference - вмешательство",
+               "bureaucracy - бюрократия\n"     \
+               "generation - поколение",
+               "implication - следствие\n"      \
+               "offspring - потомство\n"        \
+               "cognition - познание"]
+
+science_size: int = len(science_arr)
+
 
 social = "perseverance - настойчивость\n"    \
          "disobedience - непослушание\n"     \
@@ -31,6 +47,22 @@ social = "perseverance - настойчивость\n"    \
          "compassion - сострадание\n"        \
          "stigma - клеймо\n"                 \
          "affection - привязанность\n"
+
+social_arr = ["perseverance - настойчивость\n"    \
+              "disobedience - непослушание",
+              "adolescent - подросток\n"          \
+              "attempt - попытка",
+              "proponent - сторонник\n"           \
+              "anxiety - беспокойство, тревога",
+              "disparity - неравенство\n"         \
+              "downward - снижение",
+              "temptation - искушение\n"          \
+              "distraction - отвлечение",
+              "compassion - сострадание\n"        \
+              "stigma - клеймо\n"                 \
+              "affection - привязанность"]
+
+social_size: int = len(social_arr)
 
 
 books = "Вот список книг для твоего уровня:\n"                 \
