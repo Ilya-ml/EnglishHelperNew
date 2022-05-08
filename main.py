@@ -1,5 +1,4 @@
 import string
-
 import uses
 import messages
 import begginer
@@ -7,6 +6,11 @@ import pre_intermediate
 import intermediate
 import upper_intermediate
 import advanced
+import wikipedia
+import re
+from translate import Translator
+import sqlite3
+import random
 
 
 # Бот - @EnglishHelperTestBot
@@ -35,7 +39,9 @@ adv_science: int = 0
 
 @uses.bot.message_handler(commands=['start'])
 def start_message(message):
-    uses.bot.send_message(message.chat.id, messages.first_message)
+    global UsId
+    UsId = int(message.chat.id)
+    AddId(message)
 
 
 @uses.bot.message_handler(commands=['eng_level'])
@@ -63,7 +69,8 @@ def beggg(message):
     item2 = uses.types.KeyboardButton("Тест")
     item3 = uses.types.KeyboardButton("Книги")
     item4 = uses.types.KeyboardButton("Поменять уровень")
-    markup.add(item1, item2, item3, item4)
+    item5 = uses.types.KeyboardButton("Переводчик")
+    markup.add(item1, item2, item3, item4, item5)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
 
 
@@ -229,6 +236,27 @@ def for_adv(message):
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
 
 
+#----------------------------Переводчик--------------------------------
+def GetTranslate(s):
+    try:
+        translator = Translator(from_lang = "ru", to_lang = "en")
+        translation = translator.translate(s)
+        return translation
+    except Exception as e:
+        return 'Что-то пошло не так'
+
+
+@uses.bot.message_handler("Begginer")
+def translater(message):
+    mess = uses.bot.send_message(message.chat.id, 'Введите слово для перевода')
+    uses.bot.register_next_step_handler(mess, Testik)
+    
+def Testik(message):
+    uses.bot.send_message(message.chat.id, GetTranslate(message.text))
+
+#-----------------------------------------------------------------------
+
+
 @uses.bot.message_handler(content_types='text')
 def message_reply(message):
 
@@ -248,6 +276,23 @@ def message_reply(message):
 
         if message.text == "Advanced":
             adv(message)
+
+        
+        if message.text == "Переводчик":
+            translater(message)
+
+        #игра в слова---
+        if message.text == "игра":
+            PlayWord(message)
+
+
+        if message.text == "Нет😒":
+            button_message(message)
+
+
+        if message.text == "Да!😊":
+            uses.bot.send_message(message.chat.id, "ещё не реализовано")
+
 
     # Beginner
     elif level == begginer.lvl:
@@ -462,6 +507,90 @@ def message_reply(message):
 
         if message.text == "Поменять уровень":
             uses.bot.send_message(message.chat.id, 'Чтобы выбрать другой уровень знаний языка, нажмите на /eng_level')
+
+
+
+
+#-----------------------------------------
+
+db = sqlite3.connect('F:\\May be tut\\NEW Eng\\EnglishHelperNew\\database.db', check_same_thread=False)
+
+
+
+#Create cursor
+cursor = db.cursor()
+
+#Количество полей базы данных
+def FildCount():
+    cursor.execute("SELECT COUNT(*) FROM questions")
+    DB_count = cursor.fetchone()[0]
+    return DB_count
+
+#рандомное число от 1 до кол-ва полей БД
+
+@uses.bot.message_handler(content_types='text')
+def PlayWord(message):
+    #Create cursor
+    cursor = db.cursor()
+    #uses.bot.send_message(message.chat.id, "игра в слова")
+
+    #рандомное число от 1 до кол-ва полей БД
+    global r
+    r = random.randint(1,FildCount())
+    
+    # вопрос
+    cursor.execute("SELECT question FROM questions WHERE id = ?", [r])
+    cc = cursor.fetchone()[0]
+    mess = uses.bot.send_message(message.chat.id, cc)
+
+    # правильный ответ
+    cursor.execute("SELECT Correct_answer FROM questions WHERE id = ?", [r])
+    cc2 = cursor.fetchone()[0]
+
+    uses.bot.register_next_step_handler(mess, Answ)
+    
+
+def Answ(message):
+    if message.text == "стоп":
+        return
+    else:    
+        cursor.execute("SELECT Correct_answer FROM questions WHERE id = ? AND Correct_answer = ?", [r, message.text])
+        if cursor.fetchone() is None:
+                uses.bot.send_message(message.chat.id, "не верно")
+        else:
+                uses.bot.send_message(message.chat.id, "верно")
+        PlayWord(message)
+
+cursor.close
+db.close
+#-------------проверка на регистрацию пользователя в боте-------------------
+
+def AddId(message):   
+    dbu = sqlite3.connect('F:\\May be tut\\NEW Eng\\EnglishHelperNew\\Usrs.db', check_same_thread=False)
+    curs = dbu.cursor()
+    curs.execute("SELECT Id FROM Users WHERE Id = ?", [UsId])
+    if curs.fetchone() is None:
+        curs.execute("INSERT INTO Users ( Id, IsTestible) VALUES (?,?)" , [UsId, False])
+        uses.bot.send_message(message.chat.id, messages.first_message)
+        uses.bot.send_message(message.chat.id, "Вы успешно зарегистрированы!")
+        IsTest(message)
+    else:
+        uses.bot.send_message(message.chat.id, "Вы уже зарегистрированы!")
+        IsTest(message)
+    dbu.commit()
+    curs.close()
+    dbu.close()
+
+
+def IsTest(message):
+    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    Item_Yes = uses.types.KeyboardButton("Да!😊")
+    item_No = uses.types.KeyboardButton("Нет😒")
+    markup.add(Item_Yes, item_No )
+    uses.bot.send_message(message.chat.id, 'Хотите пройти тест на знание английского?', reply_markup=markup)
+
+
+
 
 
 uses.bot.infinity_polling()
