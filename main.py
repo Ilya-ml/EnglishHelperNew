@@ -290,8 +290,15 @@ def message_reply(message):
             button_message(message)
 
 
-        if message.text == "Да!😊":
-            uses.bot.send_message(message.chat.id, "ещё не реализовано")
+    if message.text == "Да!😊":
+        global num
+        num = 1
+        global wrong_answ
+        wrong_answ = 0
+        global right_answ
+        right_answ = 0
+        uses.bot.send_message(message.chat.id, "Добро пожаловать на тест!")
+        answBut(message)
 
 
     # Beginner
@@ -563,6 +570,7 @@ def Answ(message):
 
 cursor.close
 db.close
+
 #-------------проверка на регистрацию пользователя в боте-------------------
 
 def AddId(message):   
@@ -589,6 +597,95 @@ def IsTest(message):
     markup.add(Item_Yes, item_No )
     uses.bot.send_message(message.chat.id, 'Хотите пройти тест на знание английского?', reply_markup=markup)
 
+
+#----------------тест на уровень знаний------------------------
+
+#Количество полей базы данных
+def FildCount():
+    dbase = sqlite3.connect('F:\\May be tut\\EnglishHelperNew\\Testik.db')
+    global cursForCount
+    cursForCount = dbase.cursor()
+    cursForCount.execute("SELECT COUNT(*) FROM tests")
+    DB_count = cursForCount.fetchone()[0]
+    cursForCount.close()
+    dbase.close()
+    return DB_count
+
+
+def answBut(message):
+    dbForTest = sqlite3.connect('F:\\May be tut\\NEW Eng\\EnglishHelperNew\\Testik.db')
+    #Create cursor
+    cursorForTest = dbForTest.cursor()
+
+    # вопрос
+    cursorForTest.execute("SELECT question FROM tests WHERE No = ?", [num])
+    qt = cursorForTest.fetchone()[0]
+    
+    # правильный ответ 
+    global ca
+    cursorForTest.execute("SELECT correct_answer FROM tests WHERE No = ?", [num])
+    ca = cursorForTest.fetchone()[0]
+
+    # не правильный 1
+    global ua1
+    cursorForTest.execute("SELECT uncorrect_answ1 FROM tests WHERE No = ?", [num])
+    ua1 = cursorForTest.fetchone()[0]
+
+    # не правильный2
+    global ua2
+    cursorForTest.execute("SELECT uncorrect_answ2 FROM tests WHERE No = ?", [num])
+    ua2 = cursorForTest.fetchone()[0]
+
+    lst = [ca, ua1, ua2]
+    random.shuffle(lst)
+
+    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    CorAnsw = uses.types.KeyboardButton(lst[0])
+    UncorAnsw1 = uses.types.KeyboardButton(lst[1])
+    UncorAnsw2 = uses.types.KeyboardButton(lst[2])
+    stop = uses.types.KeyboardButton("стоп")
+    markup.add(CorAnsw, UncorAnsw1, UncorAnsw2, stop)
+    mess = uses.bot.send_message(message.chat.id, qt, reply_markup=markup)
+    uses.bot.register_next_step_handler(mess, ret)
+
+def ret(message):
+    global num 
+    global right_answ
+    global wrong_answ
+
+    if message.text == "стоп":
+        num = 1
+        return
+
+    if message.text == ca:
+        right_answ+=1
+        uses.bot.send_message(message.chat.id, "Верно!🤩")
+
+    if message.text == ua1:
+        wrong_answ +=1
+        uses.bot.send_message(message.chat.id, "Не верно!😯")
+
+    if message.text == ua2:
+        wrong_answ +=1
+        uses.bot.send_message(message.chat.id, "Не верно!😯")  
+
+    if num == FildCount():
+        uses.bot.send_message(message.chat.id, "Вы ответили правильно на " + str(right_answ)  + " из " + str(right_answ + wrong_answ) + " вопросов " + RecomLevel() )  
+        button_message(message)
+        return
+    num +=1
+    answBut(message)
+
+
+def RecomLevel():
+    if  ((right_answ * 100) / (wrong_answ + right_answ)) < 50:
+        return "рекомендуемый уровень: начальный👼 "
+
+    if  ((right_answ * 100) / (wrong_answ + right_answ)) > 80:
+        return "рекомендуемый уровень: продвинутый👨‍🎓 "
+    else:
+        return "рекомендуемый уровень: средний🤠"
+    
 
 
 
