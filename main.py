@@ -96,14 +96,11 @@ def extra_inf(message):
     uses.bot.send_message(message.chat.id, messages.extra_message, reply_markup=markup)
 
 
-@uses.bot.message_handler(commands=['translater'])
+@uses.bot.message_handler(commands=['translator'])
 def start_translate(message):
     global level
     level = "start_tran"
     translaterr(message)
-    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
-    uses.bot.send_message(message.chat.id, "Возвращаемся в начало", reply_markup=markup)
-    to_start(message)
 
 
 @uses.bot.message_handler("В начало")
@@ -322,6 +319,9 @@ def translaterr(message):
     
 def Testik(message):
     uses.bot.send_message(message.chat.id, GetTranslate(message.text))
+    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    uses.bot.send_message(message.chat.id, "Возвращаемся в начало", reply_markup=markup)
+    to_start(message)
 
 #-----------------------------------------------------------------------
 
