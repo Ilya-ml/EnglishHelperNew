@@ -96,11 +96,18 @@ def extra_inf(message):
     uses.bot.send_message(message.chat.id, messages.extra_message, reply_markup=markup)
 
 
-@uses.bot.message_handler(commands=['translator'])
+@uses.bot.message_handler(commands=['translator_ru'])
 def start_translate(message):
     global level
     level = "start_tran"
     translaterr(message)
+
+
+@uses.bot.message_handler(commands=['translator_eng'])
+def start_translate_en(message):
+    global level
+    level = "start_tran"
+    translaterr_en(message)
 
 
 @uses.bot.message_handler("В начало")
@@ -324,6 +331,31 @@ def Testik(message):
     to_start(message)
 
 #-----------------------------------------------------------------------
+
+
+# ----------------------------Переводчик--------------------------------
+def GetTranslate_en(s):
+    try:
+        translator = Translator(from_lang="en", to_lang="ru")
+        translation = translator.translate(s)
+        return translation
+    except Exception as e:
+        return 'Что-то пошло не так'
+
+
+def translaterr_en(message):
+    mess = uses.bot.send_message(message.chat.id, 'Введите слово для перевода:')
+    uses.bot.register_next_step_handler(mess, Testik_en)
+
+
+def Testik_en(message):
+    uses.bot.send_message(message.chat.id, GetTranslate_en(message.text))
+    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    uses.bot.send_message(message.chat.id, "Возвращаемся в начало", reply_markup=markup)
+    to_start(message)
+
+
+# -----------------------------------------------------------------------
 
 
 @uses.bot.message_handler(content_types='text')
