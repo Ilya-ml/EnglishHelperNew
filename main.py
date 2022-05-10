@@ -3,7 +3,7 @@ from encodings import utf_8
 import string
 import uses
 import messages
-import begginer
+import beginner
 import pre_intermediate
 import intermediate
 import upper_intermediate
@@ -43,21 +43,75 @@ adv_science: int = 0
 def start_message(message):
     global UsId
     UsId = int(message.chat.id)
+    global level
+    level = "start"
     AddId(message)
 
 
 @uses.bot.message_handler(commands=['eng_level'])
 def button_message(message):
     global level
-    level = "start"
+    level = "start_lvl"
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Beginner")
     item2 = uses.types.KeyboardButton("Pre-Intermediate")
     item3 = uses.types.KeyboardButton("Intermediate")
     item4 = uses.types.KeyboardButton("Upper-Intermediate")
     item5 = uses.types.KeyboardButton("Advanced")
-    markup.add(item1, item2, item3, item4, item5)
+    item6 = uses.types.KeyboardButton("В начало")
+    markup.add(item1, item2, item3, item4, item5, item6)
     uses.bot.send_message(message.chat.id, messages.choose_level_message, reply_markup=markup)
+
+
+@uses.bot.message_handler(commands=['test'])
+def testtt(message):
+    global level
+    level = "start_test"
+    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    item1 = uses.types.KeyboardButton("Да)")
+    item2 = uses.types.KeyboardButton("Нет(")
+    markup.add(item1, item2)
+    uses.bot.send_message(message.chat.id, messages.test_message, reply_markup=markup)
+
+
+@uses.bot.message_handler(commands=['game'])
+def gamee(message):
+    global level
+    level = "start_game"
+    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    item1 = uses.types.KeyboardButton("Да)")
+    item2 = uses.types.KeyboardButton("Нет(")
+    markup.add(item1, item2)
+    uses.bot.send_message(message.chat.id, messages.game_message, reply_markup=markup)
+
+
+@uses.bot.message_handler(commands=['extra'])
+def extra_inf(message):
+    global level
+    level = "start_extra"
+    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    item1 = uses.types.KeyboardButton("Полезный сайт")
+    item2 = uses.types.KeyboardButton("PDF")
+    markup.add(item1, item2)
+    uses.bot.send_message(message.chat.id, messages.extra_message, reply_markup=markup)
+
+
+@uses.bot.message_handler(commands=['translater'])
+def start_translate(message):
+    global level
+    level = "start_tran"
+    translaterr(message)
+    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    uses.bot.send_message(message.chat.id, "Возвращаемся в начало", reply_markup=markup)
+    to_start(message)
+
+
+@uses.bot.message_handler("В начало")
+def to_start(message):
+    global level
+    level = "start"
+    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    uses.bot.send_message(message.chat.id, messages.to_start_message, reply_markup=markup)
 
 
 # Beginner
@@ -65,14 +119,13 @@ def button_message(message):
 @uses.bot.message_handler("Beginner")
 def beggg(message):
     global level
-    level = begginer.lvl
+    level = beginner.lvl
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова")
-    item2 = uses.types.KeyboardButton("Тест")
-    item3 = uses.types.KeyboardButton("Книги")
-    item4 = uses.types.KeyboardButton("Поменять уровень")
-    item5 = uses.types.KeyboardButton("Переводчик")
-    markup.add(item1, item2, item3, item4, item5)
+    item2 = uses.types.KeyboardButton("Книги")
+    item3 = uses.types.KeyboardButton("Поменять уровень")
+    item4 = uses.types.KeyboardButton("В начало")
+    markup.add(item1, item2, item3, item4)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
 
 
@@ -91,10 +144,10 @@ def new_word_for_beg(message):
 def for_beg(message):
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова")
-    item2 = uses.types.KeyboardButton("Тест")
     item3 = uses.types.KeyboardButton("Книги")
     item4 = uses.types.KeyboardButton("Поменять уровень")
-    markup.add(item1, item2, item3, item4)
+    item6 = uses.types.KeyboardButton("В начало")
+    markup.add(item1, item3, item4, item6)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
 
 
@@ -106,10 +159,10 @@ def pre_int(message):
     level = pre_intermediate.lvl
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова")
-    item2 = uses.types.KeyboardButton("Тест")
     item3 = uses.types.KeyboardButton("Книги")
     item4 = uses.types.KeyboardButton("Поменять уровень")
-    markup.add(item1, item2, item3, item4)
+    item6 = uses.types.KeyboardButton("В начало")
+    markup.add(item1, item3, item4, item6)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
 
 
@@ -126,10 +179,10 @@ def new_word_for_pre_int(message):
 def for_pre_int(message):
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова")
-    item2 = uses.types.KeyboardButton("Тест")
     item3 = uses.types.KeyboardButton("Книги")
     item4 = uses.types.KeyboardButton("Поменять уровень")
-    markup.add(item1, item2, item3, item4)
+    item6 = uses.types.KeyboardButton("В начало")
+    markup.add(item1, item3, item4, item6)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
 
 
@@ -141,10 +194,10 @@ def inter(message):
     level = intermediate.lvl
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова")
-    item2 = uses.types.KeyboardButton("Тест")
     item3 = uses.types.KeyboardButton("Книги")
     item4 = uses.types.KeyboardButton("Поменять уровень")
-    markup.add(item1, item2, item3, item4)
+    item6 = uses.types.KeyboardButton("В начало")
+    markup.add(item1, item3, item4, item6)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
 
 
@@ -161,10 +214,10 @@ def new_word_for_inter(message):
 def for_inter(message):
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова")
-    item2 = uses.types.KeyboardButton("Тест")
     item3 = uses.types.KeyboardButton("Книги")
     item4 = uses.types.KeyboardButton("Поменять уровень")
-    markup.add(item1, item2, item3, item4)
+    item6 = uses.types.KeyboardButton("В начало")
+    markup.add(item1, item3, item4, item6)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
 
 
@@ -176,10 +229,10 @@ def upper_int(message):
     level = upper_intermediate.lvl
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова")
-    item2 = uses.types.KeyboardButton("Тест")
     item3 = uses.types.KeyboardButton("Книги")
     item4 = uses.types.KeyboardButton("Поменять уровень")
-    markup.add(item1, item2, item3, item4)
+    item6 = uses.types.KeyboardButton("В начало")
+    markup.add(item1, item3, item4, item6)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
 
 
@@ -196,10 +249,10 @@ def new_word_for_upper_int(message):
 def for_upper_int(message):
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова")
-    item2 = uses.types.KeyboardButton("Тест")
     item3 = uses.types.KeyboardButton("Книги")
     item4 = uses.types.KeyboardButton("Поменять уровень")
-    markup.add(item1, item2, item3, item4)
+    item6 = uses.types.KeyboardButton("В начало")
+    markup.add(item1, item3, item4, item6)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
 
 
@@ -211,10 +264,10 @@ def adv(message):
     level = advanced.lvl
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова")
-    item2 = uses.types.KeyboardButton("Тест")
     item3 = uses.types.KeyboardButton("Книги")
     item4 = uses.types.KeyboardButton("Поменять уровень")
-    markup.add(item1, item2, item3, item4)
+    item6 = uses.types.KeyboardButton("В начало")
+    markup.add(item1, item3, item4, item6)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
 
 
@@ -231,11 +284,26 @@ def new_word_for_adv(message):
 def for_adv(message):
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = uses.types.KeyboardButton("Новые слова")
-    item2 = uses.types.KeyboardButton("Тест")
     item3 = uses.types.KeyboardButton("Книги")
     item4 = uses.types.KeyboardButton("Поменять уровень")
-    markup.add(item1, item2, item3, item4)
+    item6 = uses.types.KeyboardButton("В начало")
+    markup.add(item1, item3, item4, item6)
     uses.bot.send_message(message.chat.id, 'Что будем изучать?', reply_markup=markup)
+
+
+def send_files(message):
+    with open("C:\\Users\\tmeln\\Documents\\Илья\\Универ\\2 курс\\ПД\\EHelp\\files\\file1.pdf", "rb") as misc1:
+        f1 = misc1.read()
+    uses.bot.send_document(message.chat.id, f1)
+    with open("C:\\Users\\tmeln\\Documents\\Илья\\Универ\\2 курс\\ПД\\EHelp\\files\\file2.pdf", "rb") as misc2:
+        f2 = misc2.read()
+    uses.bot.send_document(message.chat.id, f2)
+    with open("C:\\Users\\tmeln\\Documents\\Илья\\Универ\\2 курс\\ПД\\EHelp\\files\\file3.pdf", "rb") as misc3:
+        f3 = misc3.read()
+    uses.bot.send_document(message.chat.id, f3)
+    with open("C:\\Users\\tmeln\\Documents\\Илья\\Универ\\2 курс\\ПД\\EHelp\\files\\file4.pdf", "rb") as misc4:
+        f4 = misc4.read()
+    uses.bot.send_document(message.chat.id, f4)
 
 
 #----------------------------Переводчик--------------------------------
@@ -248,9 +316,8 @@ def GetTranslate(s):
         return 'Что-то пошло не так'
 
 
-@uses.bot.message_handler("Begginer")
-def translater(message):
-    mess = uses.bot.send_message(message.chat.id, 'Введите слово для перевода')
+def translaterr(message):
+    mess = uses.bot.send_message(message.chat.id, 'Введите слово для перевода:')
     uses.bot.register_next_step_handler(mess, Testik)
     
 def Testik(message):
@@ -261,8 +328,44 @@ def Testik(message):
 
 @uses.bot.message_handler(content_types='text')
 def message_reply(message):
+    if level == "start_extra":
+        if message.text == "Полезный сайт":
+            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+            uses.bot.send_message(message.chat.id, "https://breakingnewsenglish.com", reply_markup=markup)
+            uses.bot.send_message(message.chat.id, "Возвращаемся в начало", reply_markup=markup)
+            to_start(message)
+        else:
+            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+            uses.bot.send_message(message.chat.id, "Вот полезные файлы:", reply_markup=markup)
+            send_files(message)
+            uses.bot.send_message(message.chat.id, "Возвращаемся в начало", reply_markup=markup)
+            to_start(message)
 
-    if level == "start":
+    elif level == "start_test":
+        if message.text == "Да)":
+            global num
+            num = 1
+            global wrong_answ
+            wrong_answ = 0
+            global right_answ
+            right_answ = 0
+            answBut(message)
+        else:
+            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+            uses.bot.send_message(message.chat.id, "Ну ладно( Тогда возвращаемся в начало", reply_markup=markup)
+            to_start(message)
+
+    elif level == "start_game":
+        if message.text == "Да)":
+            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+            uses.bot.send_message(message.chat.id, "Круто) Тогда начинаем игру", reply_markup=markup)
+            PlayWord(message)
+        else:
+            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+            uses.bot.send_message(message.chat.id, "Ну ладно( Тогда возвращаемся в начало", reply_markup=markup)
+            to_start(message)
+
+    elif level == "start_lvl":
 
         if message.text == "Beginner":
             beggg(message)
@@ -279,72 +382,45 @@ def message_reply(message):
         if message.text == "Advanced":
             adv(message)
 
-        
-        if message.text == "Переводчик":
-            translater(message)
-
-        #игра в слова---
-    if message.text == "игра":
-        PlayWord(message)
-
-
-        if message.text == "Нет😒":
-            button_message(message)
-
-
-    if message.text == "Да!😊":
-        global num
-        num = 1
-        global wrong_answ
-        wrong_answ = 0
-        global right_answ
-        right_answ = 0
-        uses.bot.send_message(message.chat.id, "Добро пожаловать на тест!")
-        answBut(message)
-
-    if message.text == "картинка":
-        SendPhoto(message)
-
-
-    if message.text == "файл":
-        send_File(message)
+        if message.text == "В начало":
+            to_start(message)
 
     # Beginner
-    elif level == begginer.lvl:
+    elif level == beginner.lvl:
 
         if message.text == "Новые слова":
             new_word_for_beg(message)
 
         if message.text == "Окружающий мир":
-            uses.bot.send_message(message.chat.id, begginer.nature)
+            uses.bot.send_message(message.chat.id, beginner.nature)
             markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
             item1 = uses.types.KeyboardButton("Назад")
             markup.add(item1)
             uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
 
         if message.text == "Семья":
-            uses.bot.send_message(message.chat.id, begginer.family)
+            uses.bot.send_message(message.chat.id, beginner.family)
             markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
             item1 = uses.types.KeyboardButton("Назад")
             markup.add(item1)
             uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
 
         if message.text == "Для туриста":
-            uses.bot.send_message(message.chat.id, begginer.tourism)
+            uses.bot.send_message(message.chat.id, beginner.tourism)
             markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
             item1 = uses.types.KeyboardButton("Назад")
             markup.add(item1)
             uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
 
         if message.text == "Социальная коммуникация":
-            uses.bot.send_message(message.chat.id, begginer.social)
+            uses.bot.send_message(message.chat.id, beginner.social)
             markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
             item1 = uses.types.KeyboardButton("Назад")
             markup.add(item1)
             uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
 
         if message.text == "Книги":
-            uses.bot.send_message(message.chat.id, begginer.books)
+            uses.bot.send_message(message.chat.id, beginner.books)
             markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
             item1 = uses.types.KeyboardButton("Назад")
             markup.add(item1)
@@ -353,15 +429,13 @@ def message_reply(message):
         if message.text == "Назад":
             for_beg(message)
 
-        if message.text == "Тест":
-            uses.bot.send_message(message.chat.id, "В скором времени")
-            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
-            item1 = uses.types.KeyboardButton("Назад")
-            markup.add(item1)
-            uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
-
         if message.text == "Поменять уровень":
             uses.bot.send_message(message.chat.id, 'Чтобы выбрать другой уровень знаний языка, нажмите на /eng_level')
+
+        if message.text == "В начало":
+            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+            uses.bot.send_message(message.chat.id, "Возвращаемся в начало", reply_markup=markup)
+            to_start(message)
 
     # Pre-Intermediate
     elif level == pre_intermediate.lvl:
@@ -393,15 +467,13 @@ def message_reply(message):
         if message.text == "Назад":
             for_pre_int(message)
 
-        if message.text == "Тест":
-            uses.bot.send_message(message.chat.id, "В скором времени")
-            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
-            item1 = uses.types.KeyboardButton("Назад")
-            markup.add(item1)
-            uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
-
         if message.text == "Поменять уровень":
             uses.bot.send_message(message.chat.id, 'Чтобы выбрать другой уровень знаний языка, нажмите на /eng_level')
+
+        if message.text == "В начало":
+            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+            uses.bot.send_message(message.chat.id, "Возвращаемся в начало", reply_markup=markup)
+            to_start(message)
 
     # Intermediate
     elif level == intermediate.lvl:
@@ -433,15 +505,13 @@ def message_reply(message):
         if message.text == "Назад":
             for_inter(message)
 
-        if message.text == "Тест":
-            uses.bot.send_message(message.chat.id, "В скором времени")
-            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
-            item1 = uses.types.KeyboardButton("Назад")
-            markup.add(item1)
-            uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
-
         if message.text == "Поменять уровень":
             uses.bot.send_message(message.chat.id, 'Чтобы выбрать другой уровень знаний языка, нажмите на /eng_level')
+
+        if message.text == "В начало":
+            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+            uses.bot.send_message(message.chat.id, "Возвращаемся в начало", reply_markup=markup)
+            to_start(message)
 
     # Upper-Intermediate
     elif level == upper_intermediate.lvl:
@@ -473,15 +543,13 @@ def message_reply(message):
         if message.text == "Назад":
             for_upper_int(message)
 
-        if message.text == "Тест":
-            uses.bot.send_message(message.chat.id, "В скором времени")
-            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
-            item1 = uses.types.KeyboardButton("Назад")
-            markup.add(item1)
-            uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
-
         if message.text == "Поменять уровень":
             uses.bot.send_message(message.chat.id, 'Чтобы выбрать другой уровень знаний языка, нажмите на /eng_level')
+
+        if message.text == "В начало":
+            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+            uses.bot.send_message(message.chat.id, "Возвращаемся в начало", reply_markup=markup)
+            to_start(message)
 
     # Advanced (if level == advanced.lvl:)
     else:
@@ -513,23 +581,18 @@ def message_reply(message):
         if message.text == "Назад":
             for_adv(message)
 
-        if message.text == "Тест":
-            uses.bot.send_message(message.chat.id, "В скором времени")
-            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
-            item1 = uses.types.KeyboardButton("Назад")
-            markup.add(item1)
-            uses.bot.send_message(message.chat.id, "Вернуться назад?", reply_markup=markup)
-
         if message.text == "Поменять уровень":
             uses.bot.send_message(message.chat.id, 'Чтобы выбрать другой уровень знаний языка, нажмите на /eng_level')
 
-
+        if message.text == "В начало":
+            markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+            uses.bot.send_message(message.chat.id, "Возвращаемся в начало", reply_markup=markup)
+            to_start(message)
 
 
 #-----------------------------------------
 
-db = sqlite3.connect('F:\\May be tut\\NEW Eng\\EnglishHelperNew\\database.db', check_same_thread=False)
-
+db = sqlite3.connect('C:\\Users\\tmeln\\Documents\\Илья\\Универ\\2 курс\\ПД\\EHelp\\database1.db', check_same_thread=False)
 
 
 #Create cursor
@@ -551,7 +614,7 @@ def PlayWord(message):
 
     #рандомное число от 1 до кол-ва полей БД
     global r
-    r = random.randint(1,6)
+    r = random.randint(1, 40)
     
     # вопрос
     cursor.execute("SELECT question FROM questions WHERE id = ?", [r])
@@ -560,6 +623,7 @@ def PlayWord(message):
 
     # правильный ответ
     cursor.execute("SELECT Correct_answer FROM questions WHERE id = ?", [r])
+    global cc2
     cc2 = cursor.fetchone()[0]
 
     uses.bot.register_next_step_handler(mess, Answ)
@@ -567,13 +631,16 @@ def PlayWord(message):
 
 def Answ(message):
     if message.text == "стоп":
+        markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+        uses.bot.send_message(message.chat.id, "Возвращаемся в начало", reply_markup=markup)
+        to_start(message)
         return
     else:    
         cursor.execute("SELECT Correct_answer FROM questions WHERE id = ? AND Correct_answer = ?", [r, message.text])
         if cursor.fetchone() is None:
-                uses.bot.send_message(message.chat.id, "не верно")
+            uses.bot.send_message(message.chat.id, "не верно " + "("+ cc2 +")")
         else:
-                uses.bot.send_message(message.chat.id, "верно")
+            uses.bot.send_message(message.chat.id, "верно")
     PlayWord(message)
 
 #cursor.close
@@ -582,17 +649,15 @@ def Answ(message):
 #-------------проверка на регистрацию пользователя в боте-------------------
 
 def AddId(message):   
-    dbu = sqlite3.connect('F:\\May be tut\\NEW Eng\\EnglishHelperNew\\Usrs.db', check_same_thread=False)
+    dbu = sqlite3.connect('C:\\Users\\tmeln\\Documents\\Илья\\Универ\\2 курс\\ПД\\EHelp\\Usrs.db', check_same_thread=False)
     curs = dbu.cursor()
     curs.execute("SELECT Id FROM Users WHERE Id = ?", [UsId])
     if curs.fetchone() is None:
         curs.execute("INSERT INTO Users ( Id, IsTestible) VALUES (?,?)" , [UsId, False])
         uses.bot.send_message(message.chat.id, messages.first_message)
         uses.bot.send_message(message.chat.id, "Вы успешно зарегистрированы!")
-        IsTest(message)
     else:
-        uses.bot.send_message(message.chat.id, "Вы уже зарегистрированы!")
-        IsTest(message)
+        uses.bot.send_message(message.chat.id, messages.first_message_else)
     dbu.commit()
     curs.close()
     dbu.close()
@@ -602,7 +667,7 @@ def IsTest(message):
     markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
     Item_Yes = uses.types.KeyboardButton("Да!😊")
     item_No = uses.types.KeyboardButton("Нет😒")
-    markup.add(Item_Yes, item_No )
+    markup.add(Item_Yes, item_No)
     uses.bot.send_message(message.chat.id, 'Хотите пройти тест на знание английского?', reply_markup=markup)
 
 
@@ -610,7 +675,7 @@ def IsTest(message):
 
 #Количество полей базы данных
 def FildCount():
-    dbase = sqlite3.connect('F:\\May be tut\\NEW Eng\\EnglishHelperNew\\Testik.db')
+    dbase = sqlite3.connect('C:\\Users\\tmeln\\Documents\\Илья\\Универ\\2 курс\\ПД\\EHelp\\Testik.db')
     global cursForCount
     cursForCount = dbase.cursor()
     cursForCount.execute("SELECT COUNT(*) FROM tests")
@@ -621,8 +686,8 @@ def FildCount():
 
 
 def answBut(message):
-    try:
-        dbForTest = sqlite3.connect('F:\\May be tut\\NEW Eng\\EnglishHelperNew\\Testik.db')
+    #try:
+        dbForTest = sqlite3.connect('C:\\Users\\tmeln\\Documents\\Илья\\Универ\\2 курс\\ПД\\EHelp\\Testik.db')
         #Create cursor
         cursorForTest = dbForTest.cursor()
 
@@ -657,8 +722,8 @@ def answBut(message):
         markup.add(CorAnsw, UncorAnsw1, UncorAnsw2, stop)
         mess = uses.bot.send_message(message.chat.id, qt, reply_markup=markup)
         uses.bot.register_next_step_handler(mess, ret)
-    except Exception as e:
-        print (e.message, e.args)
+    #except Exception as e:
+        #print(e.message, e.args)
 
 def ret(message):
     global num 
@@ -668,27 +733,27 @@ def ret(message):
 
     if message.text == "стоп":
         num = 1
-        button_message(message)
+        to_start(message)
         return
 
     if message.text == ca:
-        right_answ+=1
+        right_answ += 1
         uses.bot.send_message(message.chat.id, "Верно!🤩")
 
     if message.text == ua1:
-        wrong_answ +=1
+        wrong_answ += 1
         uses.bot.send_message(message.chat.id, "Не верно!😯")
 
 
     if message.text == ua2:
-        wrong_answ +=1
+        wrong_answ += 1
         uses.bot.send_message(message.chat.id, "Не верно!😯") 
 
     if num == FildCount():
         uses.bot.send_message(message.chat.id, "Вы ответили правильно на " + str(right_answ)  + " из " + str(right_answ + wrong_answ) + " вопросов " + RecomLevel() )  
-        button_message(message)
+        to_start(message)
         return
-    num +=1
+    num += 1
     answBut(message)
 
 
@@ -718,7 +783,7 @@ def SendPhoto(message):
 def send_File(message):
     with open("F:\\May be tut\\NEW Eng\\EnglishHelperNew\images\\220310-plant-based-diet-m.pdf","rb") as misc:
         f = misc.read()
-    uses.bot.send_document(message.chat.id,f)
+    uses.bot.send_document(message.chat.id, f)
 
 
 uses.bot.infinity_polling()
