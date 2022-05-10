@@ -1,3 +1,5 @@
+from email import charset
+from encodings import utf_8
 import string
 import uses
 import messages
@@ -282,8 +284,8 @@ def message_reply(message):
             translater(message)
 
         #игра в слова---
-        if message.text == "игра":
-            PlayWord(message)
+    if message.text == "игра":
+        PlayWord(message)
 
 
         if message.text == "Нет😒":
@@ -300,6 +302,12 @@ def message_reply(message):
         uses.bot.send_message(message.chat.id, "Добро пожаловать на тест!")
         answBut(message)
 
+    if message.text == "картинка":
+        SendPhoto(message)
+
+
+    if message.text == "файл":
+        send_File(message)
 
     # Beginner
     elif level == begginer.lvl:
@@ -543,7 +551,7 @@ def PlayWord(message):
 
     #рандомное число от 1 до кол-ва полей БД
     global r
-    r = random.randint(1,FildCount())
+    r = random.randint(1,6)
     
     # вопрос
     cursor.execute("SELECT question FROM questions WHERE id = ?", [r])
@@ -566,10 +574,10 @@ def Answ(message):
                 uses.bot.send_message(message.chat.id, "не верно")
         else:
                 uses.bot.send_message(message.chat.id, "верно")
-        PlayWord(message)
+    PlayWord(message)
 
-cursor.close
-db.close
+#cursor.close
+#db.close
 
 #-------------проверка на регистрацию пользователя в боте-------------------
 
@@ -602,7 +610,7 @@ def IsTest(message):
 
 #Количество полей базы данных
 def FildCount():
-    dbase = sqlite3.connect('F:\\May be tut\\EnglishHelperNew\\Testik.db')
+    dbase = sqlite3.connect('F:\\May be tut\\NEW Eng\\EnglishHelperNew\\Testik.db')
     global cursForCount
     cursForCount = dbase.cursor()
     cursForCount.execute("SELECT COUNT(*) FROM tests")
@@ -613,48 +621,54 @@ def FildCount():
 
 
 def answBut(message):
-    dbForTest = sqlite3.connect('F:\\May be tut\\NEW Eng\\EnglishHelperNew\\Testik.db')
-    #Create cursor
-    cursorForTest = dbForTest.cursor()
+    try:
+        dbForTest = sqlite3.connect('F:\\May be tut\\NEW Eng\\EnglishHelperNew\\Testik.db')
+        #Create cursor
+        cursorForTest = dbForTest.cursor()
 
-    # вопрос
-    cursorForTest.execute("SELECT question FROM tests WHERE No = ?", [num])
-    qt = cursorForTest.fetchone()[0]
-    
-    # правильный ответ 
-    global ca
-    cursorForTest.execute("SELECT correct_answer FROM tests WHERE No = ?", [num])
-    ca = cursorForTest.fetchone()[0]
+        # вопрос
+        cursorForTest.execute("SELECT question FROM tests WHERE No = ?", [num])
+        qt = cursorForTest.fetchone()[0]
+        
+        # правильный ответ 
+        global ca
+        cursorForTest.execute("SELECT correct_answer FROM tests WHERE No = ?", [num])
+        ca = cursorForTest.fetchone()[0]
 
-    # не правильный 1
-    global ua1
-    cursorForTest.execute("SELECT uncorrect_answ1 FROM tests WHERE No = ?", [num])
-    ua1 = cursorForTest.fetchone()[0]
+        # не правильный 1
+        global ua1
+        cursorForTest.execute("SELECT uncorrect_answ1 FROM tests WHERE No = ?", [num])
+        ua1 = cursorForTest.fetchone()[0]
 
-    # не правильный2
-    global ua2
-    cursorForTest.execute("SELECT uncorrect_answ2 FROM tests WHERE No = ?", [num])
-    ua2 = cursorForTest.fetchone()[0]
+        # не правильный2
+        global ua2
+        cursorForTest.execute("SELECT uncorrect_answ2 FROM tests WHERE No = ?", [num])
+        ua2 = cursorForTest.fetchone()[0]
 
-    lst = [ca, ua1, ua2]
-    random.shuffle(lst)
 
-    markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
-    CorAnsw = uses.types.KeyboardButton(lst[0])
-    UncorAnsw1 = uses.types.KeyboardButton(lst[1])
-    UncorAnsw2 = uses.types.KeyboardButton(lst[2])
-    stop = uses.types.KeyboardButton("стоп")
-    markup.add(CorAnsw, UncorAnsw1, UncorAnsw2, stop)
-    mess = uses.bot.send_message(message.chat.id, qt, reply_markup=markup)
-    uses.bot.register_next_step_handler(mess, ret)
+        lst = [ca, ua1, ua2]
+        random.shuffle(lst)
+
+        markup = uses.types.ReplyKeyboardMarkup(resize_keyboard=True)
+        CorAnsw = uses.types.KeyboardButton(lst[0])
+        UncorAnsw1 = uses.types.KeyboardButton(lst[1])
+        UncorAnsw2 = uses.types.KeyboardButton(lst[2])
+        stop = uses.types.KeyboardButton("стоп")
+        markup.add(CorAnsw, UncorAnsw1, UncorAnsw2, stop)
+        mess = uses.bot.send_message(message.chat.id, qt, reply_markup=markup)
+        uses.bot.register_next_step_handler(mess, ret)
+    except Exception as e:
+        print (e.message, e.args)
 
 def ret(message):
     global num 
     global right_answ
     global wrong_answ
 
+
     if message.text == "стоп":
         num = 1
+        button_message(message)
         return
 
     if message.text == ca:
@@ -665,9 +679,10 @@ def ret(message):
         wrong_answ +=1
         uses.bot.send_message(message.chat.id, "Не верно!😯")
 
+
     if message.text == ua2:
         wrong_answ +=1
-        uses.bot.send_message(message.chat.id, "Не верно!😯")  
+        uses.bot.send_message(message.chat.id, "Не верно!😯") 
 
     if num == FildCount():
         uses.bot.send_message(message.chat.id, "Вы ответили правильно на " + str(right_answ)  + " из " + str(right_answ + wrong_answ) + " вопросов " + RecomLevel() )  
@@ -678,16 +693,32 @@ def ret(message):
 
 
 def RecomLevel():
-    if  ((right_answ * 100) / (wrong_answ + right_answ)) < 50:
+    if  right_answ  <= 15:
         return "рекомендуемый уровень: начальный👼 "
 
-    if  ((right_answ * 100) / (wrong_answ + right_answ)) > 80:
+    if  right_answ  >= 25:
         return "рекомендуемый уровень: продвинутый👨‍🎓 "
     else:
         return "рекомендуемый уровень: средний🤠"
     
+    #отправляет картинку
+def SendPhoto(message):
+    dbForTest = sqlite3.connect('F:\\May be tut\\NEW Eng\\EnglishHelperNew\\Testik.db')
+    #Create cursor
+    CurPics = dbForTest.cursor()
 
 
+    CurPics.execute("SELECT photo FROM Image WHERE Id = ?", [1])
+    pt = CurPics.fetchone()[0]
+    
+    p = open(pt, "rb")
+    uses.bot.send_photo(message.chat.id, p)
+
+#отправляет указанный файл
+def send_File(message):
+    with open("F:\\May be tut\\NEW Eng\\EnglishHelperNew\images\\220310-plant-based-diet-m.pdf","rb") as misc:
+        f = misc.read()
+    uses.bot.send_document(message.chat.id,f)
 
 
 uses.bot.infinity_polling()
